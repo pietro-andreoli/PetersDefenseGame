@@ -35,8 +35,7 @@ public class MovingComponent extends AbstractAction {
 				}
 				GamePanel.powerUpList.remove(currToken);
 			}
-			//This checks if the user hit an enemy and then sets the user in 'invinccible mode' for a couple seconds
-			checkForEnemyCollision();
+			
 			
 			Viewer.panel.repaint();
 		}else if(direction.equalsIgnoreCase("leftarrow") ||direction.equalsIgnoreCase("AKey")){
@@ -57,8 +56,7 @@ public class MovingComponent extends AbstractAction {
 				}
 				GamePanel.powerUpList.remove(currToken);
 			}
-			//This checks if the user hit an enemy and then sets the user in 'invinccible mode' for a couple seconds
-			checkForEnemyCollision();
+			
 			Viewer.panel.repaint();
 		}else if(direction.equalsIgnoreCase("uparrow")||direction.equalsIgnoreCase("WKey")){
 			//Moves the user
@@ -79,8 +77,7 @@ public class MovingComponent extends AbstractAction {
 				}
 				GamePanel.powerUpList.remove(currToken);
 			}
-			//This checks if the user hit an enemy and then sets the user in 'invinccible mode' for a couple seconds
-			checkForEnemyCollision();
+			
 			Viewer.panel.repaint();
 		}else if(direction.equalsIgnoreCase("downarrow")||direction.equalsIgnoreCase("SKey")){
 			//Moves the user
@@ -101,23 +98,21 @@ public class MovingComponent extends AbstractAction {
 				}
 				GamePanel.powerUpList.remove(currToken);
 			}
-			//This checks if the user hit an enemy and then sets the user in 'invinccible mode' for a couple seconds
-			checkForEnemyCollision();
+			
 			Viewer.panel.repaint();
 		}
 		}
+		checkForEnemyCollision();
 	}
 	
 	/**This checks if the user hit an enemy and then sets the user in 'invincible mode' for a couple seconds. This also takes away a life from the user.
 	 * 
 	 */
-	public void checkForEnemyCollision(){
+	public static void checkForEnemyCollision(){
 		//this checks 
 		for(EnemyCharacter l : GamePanel.enemyList){
 			if(GamePanel.user.overLapsEnemy(l)){
-				System.out.println(GamePanel.invincible);
 				if(!GamePanel.recovering && !GamePanel.invincible){
-					System.out.println(GamePanel.invincible);
 					GamePanel.user.lives--;
 					System.out.println("Current Number of Lives"+GamePanel.user.lives);
 					GamePanel.user.recoverAfterHit();

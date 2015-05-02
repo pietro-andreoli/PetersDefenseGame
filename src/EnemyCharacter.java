@@ -11,6 +11,7 @@ public class EnemyCharacter {
 	int type;//The type of enemy
 	int xPos;
 	int yPos;
+	int side;
 	
 	
 	public EnemyCharacter(){
@@ -20,12 +21,16 @@ public class EnemyCharacter {
 		int temp=r.nextInt(4);
 		if(temp==0){
 			body=new Ellipse2D.Double(0, r.nextInt((frameHeight-characterHeight)+1), characterWidth, characterHeight);
+			side=0;
 		}else if(temp==1){
 			body=new Ellipse2D.Double( r.nextInt((frameWidth-characterWidth)+1), 0, characterWidth, characterHeight);
+			side=1;
 		}else if(temp==2){
 			body=new Ellipse2D.Double(frameWidth-characterWidth-characterWidth-4, r.nextInt((frameHeight-characterHeight)+1), characterWidth, characterHeight);
+			side=2;
 		}else if (temp==3){
 			body=new Ellipse2D.Double(r.nextInt((frameWidth-characterWidth)+1), frameHeight-(6*characterHeight), characterWidth, characterHeight);
+			side=3;
 		}
 		type = r.nextInt(4);
 		xPos=(int)body.x;
@@ -38,17 +43,17 @@ public class EnemyCharacter {
 		Random r = new Random();
 		int temp=r.nextInt(4);
 		if(temp==0){
-			System.out.println("Enemy added to side 0");
 			body=new Ellipse2D.Double(0, r.nextInt((frameHeight-characterHeight)+1), characterWidth, characterHeight);
+			side=0;
 		}else if(temp==1){
-			System.out.println("Enemy added to side 1");
 			body=new Ellipse2D.Double( r.nextInt((frameWidth-characterWidth)+1), 0, characterWidth, characterHeight);
+			side=1;
 		}else if(temp==2){
-			System.out.println("Enemy added to side 2");
 			body=new Ellipse2D.Double(frameWidth-characterWidth-characterWidth-4, r.nextInt((frameHeight-characterHeight)+1), characterWidth, characterHeight);
+			side=2;
 		}else if (temp==3){
-			System.out.println("Enemy added to side 3");
 			body=new Ellipse2D.Double(r.nextInt((frameWidth-characterWidth)+1), frameHeight-(6*characterHeight), characterWidth, characterHeight);
+			side=3;
 		}
 		
 		type = t;
@@ -74,6 +79,12 @@ public class EnemyCharacter {
 				}
 			
 		return false;
+	}
+	public void setLocation(double d, double e){
+		body.x=d;
+		body.y=e;
+		xPos=(int)d;
+		yPos=(int)e;
 	}
 	public void draw(Graphics2D g2) {
 		Ellipse2D.Double body =new Ellipse2D.Double(xPos, yPos, characterWidth, characterHeight);

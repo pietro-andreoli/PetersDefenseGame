@@ -22,12 +22,10 @@ public class GameFrame extends JFrame {
 
 		// Construct menu
 		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
+		//setJMenuBar(menuBar);
 		menuBar.add(createFileMenu());
 		menuBar.add(createStackMenu());
 		menuBar.add(createListMenu());
-
-		setSize(FRAME_WIDTH, FRAME_HEIGHT);
 
 	}
 
@@ -55,7 +53,7 @@ public class GameFrame extends JFrame {
 	}
 
 	public JMenu createStackMenu() {
-		JMenu menu = new JMenu("Stack");
+		JMenu menu = new JMenu("Lives: "+GamePanel.user.lives);
 		menu.add(pop());
 		menu.add(push());
 		return menu;

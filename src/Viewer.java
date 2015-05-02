@@ -9,6 +9,7 @@ public class Viewer {
 	static GamePanel panel;
 	
 	
+	
 	public static void main(String[] args) {
 		JFrame frame = new GameFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -18,7 +19,9 @@ public class Viewer {
 		panel.setBackground(Color.WHITE);
 		MoveKeyBinding.keyBind(panel);
 		panel.setLayout(null);
+		frame.setSize(GameFrame.FRAME_WIDTH, GameFrame.FRAME_HEIGHT);
 		frame.add(panel);
+
 		frame.setVisible(true);
 	}
 }
