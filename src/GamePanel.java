@@ -197,8 +197,17 @@ public class GamePanel extends JPanel  {
 							}
 						}
 					}
+					
 				}//end of enemy character animation
-				
+				for(int i =0; i<enemyList.size();i++){
+					for(int j=0; j<bullets.size();j++){
+						if(enemyList.get(i).isHit(bullets.get(j))){
+							enemyList.remove(i);
+							bullets.remove(j);
+							repaint();
+						}
+					}
+				}
 				
 			}
 
@@ -220,6 +229,7 @@ public class GamePanel extends JPanel  {
 							
 						}
 					}
+					
 					repaint();
 				}
 			}
@@ -291,7 +301,7 @@ public class GamePanel extends JPanel  {
 
 				 repaint();
 				 addMouseListener(new UserBullet());
-				 //animate.start();
+				 animate.start();
 				 bulletAnimate.start();
 			}//closes actionPerformed
 

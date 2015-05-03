@@ -80,6 +80,16 @@ public class EnemyCharacter {
 			
 		return false;
 	}
+	public boolean isHit(UserBullet other){
+		double distanceX= Math.abs((other.body.x+other.body.width/2)-(this.body.x+this.body.width/2));
+		double distanceY= Math.abs((other.body.y+other.body.height/2)-(this.body.y+this.body.height/2));
+		double totalRadius = other.body.width/2 + this.body.width/2;
+		if(distanceX < totalRadius && distanceY < totalRadius ){
+			return true;
+			
+		}
+		return false;
+	}
 	public void setLocation(double d, double e){
 		body.x=d;
 		body.y=e;
