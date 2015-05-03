@@ -12,6 +12,7 @@ public class EnemyCharacter {
 	int xPos;
 	int yPos;
 	int side;
+	boolean inPlay=true;
 	
 	
 	public EnemyCharacter(){
@@ -35,6 +36,7 @@ public class EnemyCharacter {
 		type = r.nextInt(4);
 		xPos=(int)body.x;
 		yPos=(int)body.y;
+		inPlay=true;
 	}
 	
 	public EnemyCharacter(int t){
@@ -59,6 +61,7 @@ public class EnemyCharacter {
 		type = t;
 		xPos=(int)body.x;
 		yPos=(int)body.y;
+		inPlay=true;
 	}
 	
 	public EnemyCharacter(int x, int y, int t){
@@ -66,6 +69,7 @@ public class EnemyCharacter {
 		xPos=(int)body.x;
 		yPos=(int)body.y;
 		type=t;
+		inPlay=true;
 	}
 	
 	public boolean overlapsOtherEnemy(EnemyCharacter other){

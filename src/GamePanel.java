@@ -45,6 +45,7 @@ public class GamePanel extends JPanel  {
 	static boolean gameModeEasy;//easy = 1 medium = 2 hard = 3
 	static boolean gameModeMedium;
 	boolean gameModeHard;
+	static int enemySpeed;
 	//static UserCharacter user=new UserCharacter(GameFrame.FRAME_WIDTH/2-UserCharacter.characterWidth, GameFrame.FRAME_HEIGHT/2-UserCharacter.characterHeight);
 	static UserCharacter user;
 	static PowerUpTokens powerUp1;
@@ -92,152 +93,19 @@ public class GamePanel extends JPanel  {
 		add(medium);
 		add(hard);
 		
-		class Animate implements ActionListener {
-			//timer that animates the enemies
-			public void actionPerformed(ActionEvent e) {
-				//checks for collision
-				MovingComponent.checkForEnemyCollision();
-				
-				for(EnemyCharacter enemy : enemyList){
-					if(enemy.type==0){
-						if(enemy.side==0){
-							//if the enemy's x position is greater thanthe width of the frame, treat him as if he were on that side of the frame
-							if(enemy.xPos>GameFrame.FRAME_WIDTH){
-								enemy.side=2;
-							}else{
-								enemy.setLocation(enemy.body.getX()+4, enemy.body.getY());
-							}
-						}// end of enemy.side=0
-						else if(enemy.side==1){
-							if(enemy.yPos>GameFrame.FRAME_HEIGHT){
-								enemy.side=3;
-								
-							}else{
-								enemy.setLocation(enemy.body.getX(), enemy.body.getY()+4);
-							}
-						}//end of enemy.side ==1
-						else if(enemy.side==2){
-							if(enemy.xPos<=0){
-								enemy.side=0;
-							}else{
-								enemy.setLocation(enemy.body.getX()-4, enemy.body.getY());
-							}
-						}
-						else if(enemy.side==3){
-							if(enemy.yPos<=0){
-								enemy.side=1;
-							}else{
-								enemy.setLocation(enemy.body.getX(), enemy.body.getY()-4);
-							}
-						}
-						
-					}// end of if enemy == 0 
-					else if(enemy.type==1){
-						if(enemy.side==0){
-							//if the enemy's x position is greater thanthe width of the frame, treat him as if he were on that side of the frame
-							if(enemy.xPos>GameFrame.FRAME_WIDTH){
-								enemy.side=2;
-							}else{
-								enemy.setLocation(enemy.body.getX()+2, enemy.body.getY());
-							}
-						}// end of enemy.side=0
-						else if(enemy.side==1){
-							if(enemy.yPos>GameFrame.FRAME_HEIGHT){
-								enemy.side=3;
-								
-							}else{
-								enemy.setLocation(enemy.body.getX(), enemy.body.getY()+2);
-							}
-						}//end of enemy.side ==1
-						else if(enemy.side==2){
-							if(enemy.xPos<=0){
-								enemy.side=0;
-							}else{
-								enemy.setLocation(enemy.body.getX()-2, enemy.body.getY());
-							}
-						}
-						else if(enemy.side==3){
-							if(enemy.yPos<=0){
-								enemy.side=1;
-							}else{
-								enemy.setLocation(enemy.body.getX(), enemy.body.getY()-2);
-							}
-						}
-					}else if(enemy.type==2){
-						if(enemy.side==0){
-							//if the enemy's x position is greater thanthe width of the frame, treat him as if he were on that side of the frame
-							if(enemy.xPos>GameFrame.FRAME_WIDTH){
-								enemy.side=3;
-							}else{
-								//int diff=GameFrame.FRAME_WIDTH-enemy.body.getX()
-								enemy.setLocation(enemy.body.getX()+2, enemy.body.getX()+ Math.sqrt(enemy.body.getX()+20));
-							}
-						}// end of enemy.side=0
-						else if(enemy.side==1){
-							if(enemy.yPos>GameFrame.FRAME_HEIGHT){
-								enemy.side=3;
-								
-							}else{
-								enemy.setLocation(enemy.body.getY()+Math.sqrt(enemy.body.getY()+10), enemy.body.getY()+2 );
-								//enemy.setLocation(enemy.body.getX()+Math.cos((double)(enemy.body.getY()+10)), enemy.body.getY()+2);
-							}
-						}//end of enemy.side ==1
-						else if(enemy.side==2){
-							if(enemy.xPos<=0){
-								enemy.side=0;
-							}else{
-								enemy.setLocation(enemy.body.getX()-2, enemy.body.getX()+Math.sqrt(enemy.body.getX()-10));
-							}
-						}
-						else if(enemy.side==3){
-							if(enemy.yPos<=0){
-								enemy.side=1;
-							}else{
-								enemy.setLocation(enemy.body.getY()+Math.sqrt(enemy.body.getY()-10), enemy.body.getY()-2 );
-							}
-						}
-					}
-					
-				}//end of enemy character animation
-				for(int i =0; i<enemyList.size();i++){
-					for(int j=0; j<bullets.size();j++){
-						if(enemyList.get(i).isHit(bullets.get(j))){
-							enemyList.remove(i);
-							bullets.remove(j);
-							repaint();
-						}
-					}
-				}
-				
-			}
-
-		}
-		//adds the timer and starts the timer
-		final Timer animate = new Timer(1, new Animate());
 		
-		class BulletAnimate implements ActionListener {
-			//timer that animates the bullets
-			public void actionPerformed(ActionEvent e) {
-				for(UserBullet b : bullets){
-					if(b.xPos>GameFrame.FRAME_WIDTH || b.yPos>GameFrame.FRAME_HEIGHT || b.xPos<=0 || b.yPos<=0){
-						//do nothing
-					}else{
-						if(b.mouseOrBullet=="mouse"){
-							b.setPosition(b.xPos-1, user.yPos-b.trajectory*(user.xPos-b.xPos+1));
-						}else if(b.mouseOrBullet=="bullet"){
-							b.setPosition(b.xPos+1, user.yPos-b.trajectory*(user.xPos-b.xPos+1));
-							
-						}
-					}
-					
-					repaint();
-				}
-			}
-		}
+		//adds the timer and starts the timer
+		final Timer animate = new Timer(1, new EnemyAnimation());
+		
+		
 		final Timer bulletAnimate = new Timer(1, new BulletAnimate());
+		
+		
 		
 		//the listener that adds action to startButton
 		class MyListener implements ActionListener{
+			
+
 			public void actionPerformed(ActionEvent e) {
 				//sets the player name to the inputted text at the beginning fo the game
 				playerName=nameText.getText();
@@ -254,10 +122,13 @@ public class GamePanel extends JPanel  {
 				//Checks the current difficulty and prints to console
 				if(gameModeEasy){
 				System.out.println("The Game Difficulty is Set to Easy");
+				enemySpeed=1;
 				}else if(gameModeMedium){
 					System.out.println("The Game Difficulty is Set to Medium");
+					enemySpeed=2;
 				}else{
 					System.out.println("The Game Difficulty is Set to Hard");
+					enemySpeed=3;
 				}
 				//gets rid of the text field, JButton and Radio Buttons
 				startButton.setVisible(false);
