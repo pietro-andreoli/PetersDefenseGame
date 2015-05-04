@@ -38,7 +38,7 @@ public class MovingComponent extends AbstractAction {
 			
 			
 			Viewer.panel.repaint();
-		}else if(direction.equalsIgnoreCase("leftarrow") ||direction.equalsIgnoreCase("AKey")){
+		} if(direction.equalsIgnoreCase("leftarrow") ||direction.equalsIgnoreCase("AKey")){
 			
 			GamePanel.user.move("left", speed);
 			if(GamePanel.user.anyPowerUpIntersectsUserCheck()){
@@ -58,7 +58,7 @@ public class MovingComponent extends AbstractAction {
 			}
 			
 			Viewer.panel.repaint();
-		}else if(direction.equalsIgnoreCase("uparrow")||direction.equalsIgnoreCase("WKey")){
+		} if(direction.equalsIgnoreCase("uparrow")||direction.equalsIgnoreCase("WKey")){
 			//Moves the user
 			GamePanel.user.move("up", speed);
 			//checks if the user overlaps a token
@@ -79,7 +79,7 @@ public class MovingComponent extends AbstractAction {
 			}
 			
 			Viewer.panel.repaint();
-		}else if(direction.equalsIgnoreCase("downarrow")||direction.equalsIgnoreCase("SKey")){
+		} if(direction.equalsIgnoreCase("downarrow")||direction.equalsIgnoreCase("SKey")){
 			//Moves the user
 			GamePanel.user.move("down", speed);
 			//checks if the user overlaps a token
@@ -101,7 +101,9 @@ public class MovingComponent extends AbstractAction {
 			
 			Viewer.panel.repaint();
 		}
+	
 		}
+		
 		checkForEnemyCollision();
 	}
 	
@@ -114,6 +116,11 @@ public class MovingComponent extends AbstractAction {
 			if(GamePanel.user.overLapsEnemy(l)){
 				if(!GamePanel.recovering && !GamePanel.invincible){
 					GamePanel.user.lives--;
+					if(GamePanel.user.lives==0){
+						GamePanel.gameOver=true;
+						GamePanel.gameState=false;
+						break;
+					}
 					System.out.println("Current Number of Lives"+GamePanel.user.lives);
 					GamePanel.user.recoverAfterHit();
 					GamePanel.enemyList.remove(l);

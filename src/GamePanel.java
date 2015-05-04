@@ -1,7 +1,9 @@
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -10,8 +12,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -41,10 +47,10 @@ public class GamePanel extends JPanel  {
 	static long targetTime=1000/fps; //the target amount of time we want it to take to make one loop in the game
 	//end of GameLoop variables
 	static boolean gameState=false; //false = game is off, true = game is on
-	String playerName;
+	static String playerName;
 	static boolean gameModeEasy;//easy = 1 medium = 2 hard = 3
 	static boolean gameModeMedium;
-	boolean gameModeHard;
+	static boolean gameModeHard;
 	static int enemySpeed;
 	//static UserCharacter user=new UserCharacter(GameFrame.FRAME_WIDTH/2-UserCharacter.characterWidth, GameFrame.FRAME_HEIGHT/2-UserCharacter.characterHeight);
 	static UserCharacter user;
@@ -55,15 +61,18 @@ public class GamePanel extends JPanel  {
 	static ArrayList<EnemyCharacter> enemyList= new ArrayList<EnemyCharacter>();
 	static ArrayList<UserBullet> bullets = new ArrayList<UserBullet>();
 	TopBar topBar=new TopBar();
+	private BufferedImage gameOverImage;
+	private int score;
 	//The following are the power up properties of the user
 	static boolean invincible=false;
 	static boolean recovering=false;//if the user gets hit, they get a few seconds of invincibility
 	static boolean isFast=false;
-	int totalEnemies =20;
-	int totalPowerUps=10;
+	static int totalEnemies =20;
+	static int totalPowerUps=10;
 	static Timer recover;
 	static double recoveryTimeCount=0;
-	
+	static boolean gameOver;
+	Font gameOverFont = new Font("Helvetica", Font.BOLD, 16);
 	
 	public GamePanel(){
 		startButton = new JButton("Start");
@@ -92,7 +101,11 @@ public class GamePanel extends JPanel  {
 		add(easy);
 		add(medium);
 		add(hard);
-		
+		 try {                
+	          gameOverImage = ImageIO.read(new File("C:/users/peter/workspace/MyDefenseGame/src/GameOverScreen.jpg"));
+	       } catch (IOException ex) {
+	            // do nothing
+	       }
 		
 		//adds the timer and starts the timer
 		final Timer animate = new Timer(1, new EnemyAnimation());
@@ -109,9 +122,16 @@ public class GamePanel extends JPanel  {
 			public void actionPerformed(ActionEvent e) {
 				//sets the player name to the inputted text at the beginning fo the game
 				playerName=nameText.getText();
-				//if theres no name entered, simply put player
-				if(playerName.length()==0)
-					playerName="Player";
+				//if theres no name entered, dont continue
+				final JLabel emptyName = new JLabel("You forgot to enter a name dummy!");
+				if(playerName.length()==0){
+					emptyName.setBounds(GameFrame.FRAME_WIDTH/2-100, GameFrame.FRAME_HEIGHT/2-20, 200, 30);
+					add(emptyName);
+					//plays error noise
+					Toolkit.getDefaultToolkit().beep();
+					throw new IllegalArgumentException();
+				}
+				emptyName.setVisible(false);
 				//sets the game to on
 				gameState=true;
 				//checks which difficulty was selected, then sets the game mode to that difficulty
@@ -123,12 +143,18 @@ public class GamePanel extends JPanel  {
 				if(gameModeEasy){
 				System.out.println("The Game Difficulty is Set to Easy");
 				enemySpeed=1;
+				totalEnemies=7;
+				totalPowerUps=10;
 				}else if(gameModeMedium){
 					System.out.println("The Game Difficulty is Set to Medium");
 					enemySpeed=2;
+					totalEnemies=15;
+					totalPowerUps=7;
 				}else{
 					System.out.println("The Game Difficulty is Set to Hard");
 					enemySpeed=3;
+					totalEnemies=20;
+					totalPowerUps=5;
 				}
 				//gets rid of the text field, JButton and Radio Buttons
 				startButton.setVisible(false);
@@ -249,6 +275,14 @@ public class GamePanel extends JPanel  {
 			}
 			
 		}
+		if(gameOver){
+			
+			g.drawImage(gameOverImage, 0, 0, null);
+			g.setFont(gameOverFont);
+			g.drawString(playerName, 350, 290);
+			g.drawString("Score: "+score,100,330);
+			g.drawString("Total "+ TopBar.getTime(), 100, 360);
+		}
 	}//closes paint method
 	
 	/**Gets the games current difficulty
@@ -262,6 +296,37 @@ public class GamePanel extends JPanel  {
 			}else{
 				return 3;
 			}
+	}
+
+
+
+	public static void gameOver() {
+		gameState=false;
+		user=null;
+		enemyList=new ArrayList<EnemyCharacter>();
+		bullets=new ArrayList<UserBullet>();
+		JButton startButton;
+		JTextField nameText;
+		JRadioButton easy;
+		JRadioButton medium;
+		JRadioButton hard;
+		ButtonGroup difficulties;
+		gameModeEasy=false;//easy = 1 medium = 2 hard = 3
+		 gameModeMedium=false;
+		gameModeHard=false;
+		enemySpeed=0;
+		powerUpList= new ArrayList<PowerUpTokens>();
+		TopBar topBar=new TopBar();
+		//The following are the power up properties of the user
+		invincible=false;
+		recovering=false;//if the user gets hit, they get a few seconds of invincibility
+		isFast=false;
+		totalEnemies =0;
+		totalPowerUps=0;
+		recover=null;
+		 recoveryTimeCount=0;
+		 gameOver=true;
+		
 	}
 	
 	
