@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -62,7 +63,7 @@ public class GamePanel extends JPanel  {
 	static ArrayList<UserBullet> bullets = new ArrayList<UserBullet>();
 	TopBar topBar=new TopBar();
 	private BufferedImage gameOverImage;
-	private int score;
+	static int score;
 	//The following are the power up properties of the user
 	static boolean invincible=false;
 	static boolean recovering=false;//if the user gets hit, they get a few seconds of invincibility
@@ -276,12 +277,20 @@ public class GamePanel extends JPanel  {
 			
 		}
 		if(gameOver){
-			
+			user.visible=false;
 			g.drawImage(gameOverImage, 0, 0, null);
+			gameOverFont = new Font("Helvetica", Font.BOLD, 20);
 			g.setFont(gameOverFont);
-			g.drawString(playerName, 350, 290);
-			g.drawString("Score: "+score,100,330);
-			g.drawString("Total "+ TopBar.getTime(), 100, 360);
+			g.drawString(playerName, 320, 309);
+			gameOverFont = new Font("Helvetica", Font.BOLD, 16);
+			g.setFont(gameOverFont);
+			g.drawString("Raw Score: "+score,100,350);
+			g.drawString("Total "+ TopBar.getTime(), 100, 380);
+			g.drawString("Difficulty: "+getDifficultyToString(), 100, 410);
+			g.drawString("Difficulty Multiplier: "+scoreMultiplier(), 100, 440);
+			gameOverFont = new Font("Helvetica", Font.BOLD, 30);
+			g.setFont(gameOverFont);
+			g.drawString("Score: "+(score+(score*scoreMultiplier())), 300, 550);
 		}
 	}//closes paint method
 	
@@ -296,6 +305,26 @@ public class GamePanel extends JPanel  {
 			}else{
 				return 3;
 			}
+	}
+	
+	public double scoreMultiplier(){
+		if(gameModeEasy){
+			return 0.3;
+		}else if(gameModeMedium){
+			return 0.5;
+		}else{
+			return 0.7;
+		}
+	}
+	
+	public String getDifficultyToString(){
+		if(gameModeEasy){
+			return "Easy";
+		}else if(gameModeMedium){
+			return "Medium";
+		}else{
+			return "Hard";
+		}
 	}
 
 

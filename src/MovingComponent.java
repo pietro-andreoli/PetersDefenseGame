@@ -113,10 +113,12 @@ public class MovingComponent extends AbstractAction {
 	public static void checkForEnemyCollision(){
 		//this checks 
 		for(EnemyCharacter l : GamePanel.enemyList){
-			if(GamePanel.user.overLapsEnemy(l)){
+			System.out.println(l.xPos+" "+l.yPos);
+			if(GamePanel.user.overLapsEnemy(l) && GamePanel.user.visible){
 				if(!GamePanel.recovering && !GamePanel.invincible){
 					GamePanel.user.lives--;
-					if(GamePanel.user.lives==0){
+					
+					if(GamePanel.user.lives==0 || GamePanel.enemyList.isEmpty()){
 						GamePanel.gameOver=true;
 						GamePanel.gameState=false;
 						break;

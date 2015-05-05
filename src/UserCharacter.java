@@ -16,6 +16,7 @@ public class UserCharacter extends GameCharacter{
 	int yPos;
 	public static int lives;
 	public static boolean visible=false;
+	
 	public UserCharacter(){
 		Random xpos = new Random(GameFrame.FRAME_WIDTH);
 		Random ypos = new Random(GameFrame.FRAME_HEIGHT);
