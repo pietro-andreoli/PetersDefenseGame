@@ -53,7 +53,6 @@ public class GamePanel extends JPanel  {
 	static boolean gameModeMedium;
 	static boolean gameModeHard;
 	static int enemySpeed;
-	//static UserCharacter user=new UserCharacter(GameFrame.FRAME_WIDTH/2-UserCharacter.characterWidth, GameFrame.FRAME_HEIGHT/2-UserCharacter.characterHeight);
 	static UserCharacter user;
 	static PowerUpTokens powerUp1;
 	static PowerUpTokens powerUp2;
@@ -355,6 +354,9 @@ public class GamePanel extends JPanel  {
 		recover=null;
 		 recoveryTimeCount=0;
 		 gameOver=true;
+		 JButton newGame = new JButton("New Game");
+		 newGame.setBounds(100, 500, 120, 530);
+		 //add(newGame);
 		
 	}
 	
