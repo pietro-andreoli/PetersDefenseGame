@@ -21,7 +21,10 @@ public class SnakeGamePanel extends JPanel{
 	boolean gameOver=false;//true = the game is over, false = game is not over
 	Font menuFont=new Font("Helvetica", Font.BOLD, 24);//font on the menu
 	String playerName;
-	UserCharacterSnake user;
+	static UserCharacterSnake user;
+	
+	
+	
 	public SnakeGamePanel(){
 		//try catch for importing the Snake menu picture.
 		try{

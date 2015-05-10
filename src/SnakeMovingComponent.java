@@ -5,6 +5,7 @@ import javax.swing.AbstractAction;
 
 public class SnakeMovingComponent extends AbstractAction {
 	String key;
+	//Constructor for the moving component
 	public SnakeMovingComponent(String key){
 		this.key=key;
 	}
@@ -13,13 +14,17 @@ public class SnakeMovingComponent extends AbstractAction {
 		//if the game is on
 		if(SnakeGamePanel.gameState){
 			if(key.equalsIgnoreCase("rightArrow") ||  key.equalsIgnoreCase("DKey")){
-				System.out.println("right");
+				SnakeGamePanel.user.setDirection(3);
+				System.out.println(SnakeGamePanel.user.direction);
 			}else if(key.equalsIgnoreCase("upArrow") ||  key.equalsIgnoreCase("wKey")){
-				System.out.println("up");
+				SnakeGamePanel.user.setDirection(2);
+				System.out.println(SnakeGamePanel.user.direction);
 			}else if(key.equalsIgnoreCase("downArrow") ||  key.equalsIgnoreCase("sKey")){
-				System.out.println("down");
+				SnakeGamePanel.user.setDirection(4);
+				System.out.println(SnakeGamePanel.user.direction);
 			}else if(key.equalsIgnoreCase("leftArrow") ||  key.equalsIgnoreCase("aKey")){
-				System.out.println("left");
+				SnakeGamePanel.user.setDirection(1);
+				System.out.println(SnakeGamePanel.user.direction);
 			}
 		}
 		
