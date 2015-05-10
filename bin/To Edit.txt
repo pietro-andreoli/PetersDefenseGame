@@ -1,0 +1,2 @@
+- Set Location Of Start button to center of screen
+-If there is no name enterd, have it do nothing
