@@ -3,6 +3,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 
 import java.awt.Font;
 import java.awt.Graphics;
@@ -13,8 +14,9 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
-public class SnakeGamePanel extends JPanel{
+public class SnakeGamePanel extends JPanel  {
 	//Image for the menu screen
 	BufferedImage snakeScreen;
 	static boolean gameState=false;//true = game is running, false = game is not running
@@ -22,8 +24,9 @@ public class SnakeGamePanel extends JPanel{
 	Font menuFont=new Font("Helvetica", Font.BOLD, 24);//font on the menu
 	String playerName;
 	static UserCharacterSnake user;
-	
-	
+	final JButton start;
+	static SnakeToken currToken;
+	static ArrayList<SnakeToken> attatchedTokens=new ArrayList<SnakeToken>();
 	
 	public SnakeGamePanel(){
 		//try catch for importing the Snake menu picture.
@@ -37,9 +40,39 @@ public class SnakeGamePanel extends JPanel{
 		nameField.setBounds(GameFrame.FRAME_WIDTH/2-59, GameFrame.FRAME_HEIGHT/2+5, 133, 23);
 		add(nameField);
 		//button for starting game
-		final JButton start = new JButton("Start");
+		 start = new JButton("Start");
 		start.setBounds(GameFrame.FRAME_WIDTH/2-44, GameFrame.FRAME_HEIGHT/2+45, 100, 30);
 		add(start);
+		//class for snake animation
+		class AnimationTimer implements ActionListener{
+
+			public void actionPerformed(ActionEvent arg0) {
+				if(currToken==null){
+					currToken= new SnakeToken();
+				}
+				if(user.direction==1){
+					user.setPosition(user.xPos-2, user.yPos);
+				}else if(user.direction==2){
+					user.setPosition(user.xPos, user.yPos-2);
+				}else if(user.direction==3){
+					user.setPosition(user.xPos+2, user.yPos);
+				}else if(user.direction==4){
+					user.setPosition(user.xPos, user.yPos+2);
+				}
+				if(user.checkCollision()){
+					attatchedTokens.add(currToken);
+					currToken.attatchToEnd();
+					currToken=new SnakeToken();
+					System.out.println("broke at timer");
+				}
+				repaint();
+				
+			}
+			
+		}
+		final Timer animationTimer = new Timer(17, new AnimationTimer());
+		
+		
 		//action for the start button
 		class startButton implements ActionListener {
 
@@ -51,22 +84,31 @@ public class SnakeGamePanel extends JPanel{
 					Toolkit.getDefaultToolkit().beep();
 					throw new IllegalArgumentException();
 				}
+				//create the user
+				user= new UserCharacterSnake();
 				//sets the game to on
 				gameState=true;
 				//sets the button and text field invisible
 				nameField.setVisible(false);
 				start.setVisible(false);
-				//create the user
-				user= new UserCharacterSnake();
+				animationTimer.start();
 				repaint();
-				
 			}
 			
 		}
+		
 		start.addActionListener(new startButton());
+		
+		
 	}//end of constructor
 	
-	
+	public static void doUpdate(double delta) {
+		user.setPosition(user.xPos+1, user.yPos+1);
+		System.out.println("x: "+user.xPos + "y: "+user.yPos+"box x: "+user.body.x+" box y: "+user.body.y);
+		 System.out.println("lmao");
+		 Viewer.snakePanel.repaint();
+	}
+
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
@@ -79,7 +121,11 @@ public class SnakeGamePanel extends JPanel{
 		}
 		if(gameState && user != null){
 			user.draw(g2);
+			if(currToken != null){
+				currToken.draw(g2);
+			}
 		}
 		
 	}
+	
 }

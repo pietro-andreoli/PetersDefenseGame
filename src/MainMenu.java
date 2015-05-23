@@ -64,6 +64,7 @@ public class MainMenu extends JPanel {
 					Viewer.frame.validate();
 					Viewer.frame.repaint();
 					Viewer.snakePanel.repaint();
+					Viewer.choose="Snake";
 						}
 					}
 						snake.addActionListener(new SnakeButtonListener());

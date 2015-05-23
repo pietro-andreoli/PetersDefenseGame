@@ -28,8 +28,8 @@ public class UserCharacterSnake {
 	public void setPosition(int x, int y){
 		xPos=x;
 		yPos=y;
-		body.x=x;
-		body.y=y;
+		body.x=xPos;
+		body.y=yPos;
 	}
 	
 	/**moves the user by a predetermined amount
@@ -56,6 +56,15 @@ public class UserCharacterSnake {
 	public void setDirection(int d){
 		if(d>=0 && d<=4)
 			direction=d;
+	}
+	
+	public boolean checkCollision(){
+		if(SnakeGamePanel.currToken.body.intersects(SnakeGamePanel.user.body)){
+			System.out.println("broke at collision method");
+			return true;
+		}else{
+			return false;
+		}
 	}
 	/**draw method for painting
 	 * @param g2 the graphics 2D object 
