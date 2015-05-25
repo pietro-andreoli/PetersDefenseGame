@@ -11,7 +11,7 @@ public class MoveKeyBinding {
     static ActionMap am ;
     
     
-    public static void keyBind(JPanel p){
+    public static void keyBind(GamePanel p){
     	im = p.getInputMap(JPanel.WHEN_IN_FOCUSED_WINDOW);
         am = p.getActionMap();
         
@@ -25,14 +25,14 @@ public class MoveKeyBinding {
     	im.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0), "DKey");
     	
     	
-        am.put("RightArrow", new SnakeMovingComponent("RightArrow"));
-        am.put("LeftArrow", new SnakeMovingComponent("LeftArrow"));
-        am.put("UpArrow", new SnakeMovingComponent("UpArrow"));
-        am.put("DownArrow", new SnakeMovingComponent("DownArrow"));
-        am.put("WKey", new SnakeMovingComponent("WKey"));
-        am.put("AKey", new SnakeMovingComponent("AKey"));
-        am.put("SKey", new SnakeMovingComponent("SKey"));
-        am.put("DKey", new SnakeMovingComponent("DKey"));
+        am.put("RightArrow", new MovingComponent("RightArrow"));
+        am.put("LeftArrow", new MovingComponent("LeftArrow"));
+        am.put("UpArrow", new MovingComponent("UpArrow"));
+        am.put("DownArrow", new MovingComponent("DownArrow"));
+        am.put("WKey", new MovingComponent("WKey"));
+        am.put("AKey", new MovingComponent("AKey"));
+        am.put("SKey", new MovingComponent("SKey"));
+        am.put("DKey", new MovingComponent("DKey"));
     	
     	
     }

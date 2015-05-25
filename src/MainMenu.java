@@ -55,7 +55,7 @@ public class MainMenu extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 					Viewer.snakePanel = new SnakeGamePanel();
 					Viewer.snakePanel.setBackground(Color.BLACK);
-					MoveKeyBinding.keyBind(Viewer.snakePanel); 
+					SnakeMoveKeyBinding.keyBind(Viewer.snakePanel); 
 					Viewer.snakePanel.setLayout(null);
 					Viewer.frame.remove(Viewer.mainMenu);
 					//when you remove a component it invalidates the hierarchy. To re-validate it, you must us the following method

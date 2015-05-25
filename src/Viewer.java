@@ -3,7 +3,7 @@ import java.awt.Color;
 import javax.swing.JFrame;
 
 
-public class Viewer implements Runnable {
+public class Viewer {
 	static GamePanel panel;
 	static MainMenu mainMenu;
 	public static String choose;
@@ -26,16 +26,5 @@ public class Viewer implements Runnable {
 		frame.setAlwaysOnTop(true);
 		frame.setResizable(false);
 	}
-	public void run() {
-		// TODO Auto-generated method stub
-		if(choose=="Snake"){
-			System.out.println("in snake");
-			try{
-				Thread.sleep(250);
-			}catch (InterruptedException e){
-			
-			}
-		}
-		
-	}
+	
 }
